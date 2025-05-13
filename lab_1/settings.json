@@ -1,0 +1,8 @@
+{
+  "task1": {
+    "ALPHABET": "абвгдеёжзийклмнопрстуфхцчшщъыьэюя",
+    "TEXT": "../task1/text.txt",
+    "ENCRYPTED": "../task1/encrypted.txt",
+    "KEY": "../task1/key.json"
+  }
+}
