@@ -58,23 +58,34 @@ def main():
         task2 = load_json("../settings.json").get("task2")
         encrypted = read_txt(task2.get("ENCRYPTED"))
 
+        print("\nЗашифрованный текст:")
+        print(encrypted)
+
         frequency = get_frequency(encrypted)
         write_json(frequency, task2.get("FREQUENCY"))
+        print("\nСловарь частот вычислен и успешно сохранён")
 
         rus_frequency = load_json(task2.get("RUS_FREQUENCY"))
 
         key = get_key(frequency, rus_frequency)
         write_json(key, task2.get("KEY"))
+        print("\nКлюч вычислен и успешно сохранён")
 
         decrypted_text = decrypt(encrypted, key)
+        print("\nДешифрованный текст найденным ключом:")
+        print(decrypted_text)
+
         write_txt(decrypted_text, task2.get("DECRYPTED"))
+        print("\nУспешно сохранено")
 
         right_key = load_json(task2.get("RIGHT_KEY"))
 
         decrypted = decrypt(encrypted, right_key)
-        write_txt(decrypted, task2.get("READ_DECRYPTED"))
-
+        print("\nДешифрованный текст правильным ключом:")
         print(decrypted)
+
+        write_txt(decrypted, task2.get("READ_DECRYPTED"))
+        print("\nУспешно сохранено")
     except Exception as e:
         print(f"Error: {e}")
 

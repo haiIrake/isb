@@ -12,9 +12,6 @@ def caesar(text: str, alphabet: str, key: int) -> str:
     if not alphabet:
         raise ZeroDivisionError("Alphabet is empty")
 
-    if not str(key).isdigit():
-        raise Exception("Key must be a number")
-
     encrypted = ""
 
     for char in text:
@@ -47,13 +44,25 @@ def main():
         task1 = load_json("../settings.json").get("task1")
         text = read_txt(task1.get("TEXT"))
 
+        print("Исходный текст:")
+        print(text)
+
         alphabet = task1.get("ALPHABET")
         key = load_json(task1.get("KEY")).get("KEY")
 
-        encrypted_text = caesar(text, alphabet, key)
-        write_txt(encrypted_text, task1.get("ENCRYPTED"))
+        if not str(key).isdigit():
+            raise Exception("Key must be a number")
 
+        encrypted_text = caesar(text, alphabet, key)
+        print("\nЗашифрованный текст:")
         print(encrypted_text)
+
+        write_txt(encrypted_text, task1.get("ENCRYPTED"))
+        print("\nУспешно сохранено")
+
+        decrypted_text = decrypt_caesar(encrypted_text, alphabet, key)
+        print("\nДешифрованный текст:")
+        print(decrypted_text)
     except Exception as e:
         print(f"Error: {e}")
 
