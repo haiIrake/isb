@@ -7,8 +7,13 @@ def read_txt(filename: str) -> str:
     :param filename: путь к файлу
     :return: строка с содержимым файла
     """
-    with open(filename, "r", encoding="utf-8") as file:
-        return file.read()
+    try:
+        with open(filename, "r", encoding="utf-8") as file:
+            return file.read()
+    except FileNotFoundError:
+        print(f"File {filename} not found")
+    except Exception as e:
+        print(f"An error occurred while reading the file {filename}: {e}")
 
 
 def write_txt(data: str, filename: str) -> None:
@@ -17,20 +22,11 @@ def write_txt(data: str, filename: str) -> None:
     :param data: строка, которая будет записана в файл
     :param filename: путь к файлу, в который будет записан текст
     """
-    with open(filename, "w", encoding="utf-8") as file:
-        file.write(data)
-
-
-def load_key(key_name: str, filename: str) -> int:
-    """
-    Загружает ключ из json-файла.
-    :param key_name: имя ключа
-    :param filename: путь к файлу
-    :return: ключ
-    """
-    with open(filename, "r", encoding="utf-8") as file:
-        return json.load(file).get(key_name)
-
+    try:
+        with open(filename, "w", encoding="utf-8") as file:
+            file.write(data)
+    except Exception as e:
+        print(f"An error occurred while saving the file {filename}: {e}")
 
 def load_json(filename: str) -> dict:
     """
@@ -38,16 +34,25 @@ def load_json(filename: str) -> dict:
     :param filename: путь к файлу
     :return: словарь с содержимым файла
     """
-    with open(filename, "r", encoding="utf-8") as file:
-        return json.load(file)
+    try:
+        with open(filename, "r", encoding="utf-8") as file:
+            return json.load(file)
+    except FileNotFoundError:
+        print(f"File {filename} not found")
+    except json.JSONDecodeError:
+        print(f"File {filename} isn't correct JSON")
+    except Exception as e:
+        print(f"An error occurred while reading the file {filename}: {e}")
 
 
 def write_json(data: dict, filename: str) -> None:
     """
     Записывает данные в json-файл.
-    :param data: данные для записи
-    :param filename: путь к файлу
-    :return:
+    :param data: словарь с данными для записи
+    :param filename: путь к файлу, в который будут записаны данные
     """
-    with open(filename, "w", encoding="utf-8") as file:
-        json.dump(data, file, indent=4, ensure_ascii=False)
+    try:
+        with open(filename, "w", encoding="utf-8") as file:
+            json.dump(data, file, indent=4, ensure_ascii=False)
+    except Exception as e:
+        print(f"An error occurred while saving the file {filename}: {e}")

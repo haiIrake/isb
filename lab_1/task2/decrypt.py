@@ -7,6 +7,9 @@ def get_frequency(text: str) -> dict:
     :param text: входной текст
     :return: словарь, в котором ключи - символы, а значения - их частоты
     """
+    if not text:
+        raise ZeroDivisionError("Text is empty")
+
     freq_dict = {}
 
     for char in text:
@@ -73,7 +76,7 @@ def main():
 
         print(decrypted)
     except Exception as e:
-        print(f"Ошибка: {e}")
+        print(f"Error: {e}")
 
 
 if __name__ == "__main__":
