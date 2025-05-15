@@ -4,5 +4,14 @@
     "TEXT": "../task1/text.txt",
     "ENCRYPTED": "../task1/encrypted.txt",
     "KEY": "../task1/key.json"
+  },
+  "task2": {
+    "RUS_FREQUENCY": "../task2/rus_frequency.json",
+    "ENCRYPTED": "../task2/encrypted.txt",
+    "DECRYPTED": "../task2/decrypted.txt",
+    "FREQUENCY": "../task2/frequency.json",
+    "KEY": "../task2/key.json",
+    "RIGHT_KEY": "../task2/right_key.json",
+    "READ_DECRYPTED": "../task2/read_decrypted.txt"
   }
 }
