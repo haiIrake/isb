@@ -1,0 +1,6 @@
+{
+  "CPP": "sequence_cpp.txt",
+  "JAVA": "sequence_java.txt",
+  "RESULTS": "results.json",
+  "PI": [0.2148, 0.3672, 0.2305, 0.1875]
+}

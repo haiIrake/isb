@@ -1,5 +1,6 @@
 import math
 from scipy.special import gammaincc
+from utility_file import *
 
 
 def frequency_bit_test(sequence: str) -> float:
@@ -8,7 +9,7 @@ def frequency_bit_test(sequence: str) -> float:
     :param sequence: бинарная последовательность
     :return: P-значение теста
     """
-    s_n = (sequence.count('1') - sequence.count('0')) / math.sqrt(len(sequence))
+    s_n = abs(sequence.count('1') - sequence.count('0')) / math.sqrt(len(sequence))
     p_value = math.erfc(s_n / math.sqrt(2))
 
     return p_value
@@ -67,7 +68,40 @@ def longest_sequence_in_block_test(sequence: str, pi: list[float]) -> float:
             case _:
                 v[3] += 1
 
-        chi2 = sum(((v[i] - 16 * pi[i]) ** 2) / (16 * pi[i]) for i in range(4))
-        p_value = gammaincc(3 / 2, chi2/ 2)
+    chi2 = sum(((v[i] - 16 * pi[i]) ** 2) / (16 * pi[i]) for i in range(4))
+    p_value = gammaincc(3 / 2, chi2/ 2)
 
-        return p_value
+    return p_value
+
+
+def analyze_sequence(sequence: str, pi: list[float]) -> dict:
+    """
+    Выполняет тесты NIST для данной последовательности.
+    :param sequence: бинарная последовательность
+    :param pi: список вероятностных констант
+    :return: словарь с результатами тестов
+    """
+    return {
+        "sequence": sequence,
+        "frequency_bit_test": frequency_bit_test(sequence),
+        "identical_consecutive_bits_test": identical_consecutive_bits_test(sequence),
+        "longest_sequence_in_block_test": longest_sequence_in_block_test(sequence, pi)
+    }
+
+
+def main():
+    source = load_json("settings.json")
+    cpp_seq = read_txt(source["CPP"])
+    java_seq = read_txt(source["JAVA"])
+
+    results = {
+        "cpp": analyze_sequence(cpp_seq, source["PI"]),
+        "java": analyze_sequence(java_seq, source["PI"])
+    }
+
+    write_json(results, source["RESULTS"])
+    print(f"Результаты сохранены в {source["RESULTS"]}")
+
+
+if __name__ == "__main__":
+    main()
