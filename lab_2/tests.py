@@ -90,17 +90,20 @@ def analyze_sequence(sequence: str, pi: list[float]) -> dict:
 
 
 def main():
-    source = load_json("settings.json")
-    cpp_seq = read_txt(source["CPP"])
-    java_seq = read_txt(source["JAVA"])
+    try:
+        source = load_json("settings.json")
+        cpp_seq = read_txt(source["CPP"])
+        java_seq = read_txt(source["JAVA"])
 
-    results = {
-        "cpp": analyze_sequence(cpp_seq, source["PI"]),
-        "java": analyze_sequence(java_seq, source["PI"])
-    }
+        results = {
+            "cpp": analyze_sequence(cpp_seq, source["PI"]),
+            "java": analyze_sequence(java_seq, source["PI"])
+        }
 
-    write_json(results, source["RESULTS"])
-    print(f"Результаты сохранены в {source["RESULTS"]}")
+        write_json(results, source["RESULTS"])
+        print(f"Результаты сохранены в {source["RESULTS"]}")
+    except Exception as e:
+        print(f"Error: {e}")
 
 
 if __name__ == "__main__":
