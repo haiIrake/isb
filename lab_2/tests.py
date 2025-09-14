@@ -92,8 +92,8 @@ def analyze_sequence(sequence: str, pi: list[float]) -> dict:
 def main():
     try:
         source = load_json("settings.json")
-        cpp_seq = read_txt(source["CPP"])
-        java_seq = read_txt(source["JAVA"])
+        cpp_seq = read_txt(source["CPP"])[:128]
+        java_seq = read_txt(source["JAVA"])[:128]
 
         results = {
             "cpp": analyze_sequence(cpp_seq, source["PI"]),
