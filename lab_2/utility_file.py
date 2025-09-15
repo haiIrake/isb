@@ -9,7 +9,7 @@ def read_txt(filename: str) -> str:
     """
     try:
         with open(filename, "r", encoding="utf-8") as file:
-            return file.read()
+            return file.read().strip()
     except FileNotFoundError:
         print(f"File {filename} not found")
     except Exception as e:
