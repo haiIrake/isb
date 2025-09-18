@@ -20,7 +20,8 @@ class SymmetricCryptography:
             if nonce is None:
                 nonce = os.urandom(16)
 
-            cipher = Cipher(algorithm=algorithms.ChaCha20(key, nonce), mode=None,
+            cipher = Cipher(algorithm=algorithms.ChaCha20(key, nonce),
+                            mode=None,
                             backend=default_backend())
             encryptor = cipher.encryptor()
             ciphertext = encryptor.update(plaintext) + encryptor.finalize()
@@ -40,7 +41,8 @@ class SymmetricCryptography:
         :return: строка с дешифрованными данными
         """
         try:
-            cipher = Cipher(algorithm=algorithms.ChaCha20(key, nonce), mode=None,
+            cipher = Cipher(algorithm=algorithms.ChaCha20(key, nonce),
+                            mode=None,
                             backend=default_backend())
             decryptor = cipher.decryptor()
             plaintext = decryptor.update(ciphertext) + decryptor.finalize()
