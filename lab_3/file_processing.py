@@ -57,6 +57,20 @@ class FileOperations:
 
 
     @staticmethod
+    def write_txt(data: str, filename: str) -> None:
+        """
+        Записывает текст в файл.
+        :param data: строка, которая будет записана в файл
+        :param filename: путь к файлу, в который будет записан текст
+        """
+        try:
+            with open(filename, "w", encoding="utf-8") as file:
+                file.write(data)
+        except Exception as e:
+            print(f"An error occurred while saving the file {filename}: {e}")
+
+
+    @staticmethod
     def load_public_key(key_path: str) -> RSAPublicKey:
         """
         Загружает публичный RSA-ключ из pem-файла.
