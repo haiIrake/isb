@@ -9,6 +9,12 @@ def frequency_bit_test(sequence: str) -> float:
     :param sequence: бинарная последовательность
     :return: P-значение теста
     """
+    if not sequence:
+        raise ZeroDivisionError("Sequence is empty")
+
+    if not all(bit in '01' for bit in sequence):
+        raise ValueError("Sequence must include only '0' and '1'")
+
     s_n = abs(sequence.count('1') - sequence.count('0')) / math.sqrt(len(sequence))
     p_value = math.erfc(s_n / math.sqrt(2))
 
@@ -21,6 +27,12 @@ def identical_consecutive_bits_test(sequence: str) -> float:
     :param sequence: бинарная последовательность
     :return: P-значение теста
     """
+    if not sequence:
+        raise ZeroDivisionError("Sequence is empty")
+
+    if not all(bit in '01' for bit in sequence):
+        raise ValueError("Sequence must include only '0' and '1'")
+
     n = len(sequence)
     zeta = sequence.count('1') / n
 
@@ -33,19 +45,35 @@ def identical_consecutive_bits_test(sequence: str) -> float:
     return p_value
 
 
-def longest_sequence_in_block_test(sequence: str, pi: list[float]) -> float:
+def longest_sequence_in_block_test(sequence: str, pi: list[float], block_size: int = 8) -> float:
     """
     Выполняет тест на самую длинную последовательность единиц в блоке.
     :param sequence: бинарная последовательность
     :param pi: список вероятностных констант
+    :param block_size: размер блока (по умолчанию 8)
     :return: P-значение теста
     """
-    blocks = []
-    for i in range(0, len(sequence), 8):
-        block = sequence[i:i + 8]
-        blocks.append(block)
+    if block_size <= 0:
+        raise ValueError("Block size must be a positive integer number")
 
-    v = [0, 0, 0, 0]
+    if len(sequence) % block_size:
+        raise ValueError("Sequence length must be a multiple of the block size")
+
+    if not pi:
+        raise ValueError("List of probabilities is empty")
+
+    if not all(0 < p < 1 for p in pi):
+        raise ValueError("List of probabilities isn't correct")
+
+    if not sequence:
+        raise ValueError("Sequence is empty")
+
+    if not all(bit in '01' for bit in sequence):
+        raise ValueError("Sequence must include only '0' and '1'")
+
+    blocks = [sequence[i:i + block_size] for i in range(0, len(sequence), block_size)]
+    num_blocks = len(sequence) // block_size
+    v = [0] * len(pi)
 
     for block in blocks:
         max_len = 0
@@ -68,8 +96,8 @@ def longest_sequence_in_block_test(sequence: str, pi: list[float]) -> float:
             case _:
                 v[3] += 1
 
-    chi2 = sum(((v[i] - 16 * pi[i]) ** 2) / (16 * pi[i]) for i in range(4))
-    p_value = gammaincc(3 / 2, chi2/ 2)
+    chi2 = sum(((v[i] - num_blocks * pi[i]) ** 2) / (num_blocks * pi[i]) for i in range(len(pi)))
+    p_value = gammaincc((len(pi) - 1) / 2, chi2 / 2)
 
     return p_value
 
